@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">pak_mega</string>
+    <string name="facebook_app_id">6178855325471354</string>
+    <string name="fb_login_protocol_scheme">fb6178855325471354</string>
+    <string name="facebook_client_token">ab7076af02b41ab99031cf7c825d06e7</string>
+</resources>
