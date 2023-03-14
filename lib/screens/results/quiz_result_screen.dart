@@ -3,23 +3,23 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:pak_mega_mcqs/model/questions_model.dart';
-import 'package:pak_mega_mcqs/providers/coins_provider.dart';
-import 'package:pak_mega_mcqs/providers/mcqsdb_provider.dart';
-import 'package:pak_mega_mcqs/providers/points_provider.dart';
-import 'package:pak_mega_mcqs/routes/routes_helper.dart';
-import 'package:pak_mega_mcqs/utils/app_colors.dart';
-import 'package:pak_mega_mcqs/widgets/circular_icon_widget.dart';
-import 'package:pak_mega_mcqs/widgets/icon_text_widget.dart';
-import 'package:pak_mega_mcqs/widgets/text_widget.dart';
+import 'package:pak_mega_mcqs/common/model/questions_model.dart';
+import 'package:pak_mega_mcqs/common/providers/admob_provider.dart';
+import 'package:pak_mega_mcqs/common/providers/mcqsdb_provider.dart';
+import 'package:pak_mega_mcqs/common/providers/points_provider.dart';
+import 'package:pak_mega_mcqs/screens/profile/profile_provider.dart';
+import 'package:pak_mega_mcqs/common/routes/routes_helper.dart';
+import 'package:pak_mega_mcqs/common/widgets/circular_icon_widget.dart';
+import 'package:pak_mega_mcqs/common/widgets/icon_text_widget.dart';
+import 'package:pak_mega_mcqs/common/widgets/text_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../utils/dimensions.dart';
+import 'package:pak_mega_mcqs/common/utils/app_colors.dart';
+import 'package:pak_mega_mcqs/common/utils/dimensions.dart';
 import 'dart:io';
 
 class QuizResultScreen extends StatefulWidget {
@@ -47,8 +47,8 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
 
   @override
   void initState() {
-    getImagePath();
-    context.read<CoinsProvider>().increaseCoins(context.read<PointsProvider>().result);
+    // context.read<CoinsProvider>().increaseCoins(context.read<PointsProvider>().result);
+    context.read<ProfileProvider>().increaseCoins(context.read<PointsProvider>().result);
     super.initState();
   }
   @override
@@ -69,10 +69,6 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                           Dimensions.height135-20)),
                 ),
               ),
-              Positioned(
-                top: Dimensions.height50,
-                left: Dimensions.height15 + 1,
-                child: _file != null ? Image.file(_file!,height: 100,width: 100,): const SizedBox.shrink(),) ,
               Positioned(
                   top: Dimensions.height50,
                   left: Dimensions.height15 + 1,
@@ -268,6 +264,9 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                     icon: Icons.remove_red_eye_outlined,),
                   CircularIconWidget(
                     onPress: (){
+                      context.read<MCQsDbProvider>().resetQuestionsList();
+                      context.read<MCQsDbProvider>().resetAllSubCategoriesList();
+                      context.read<AdMobServicesProvider>().showInterstitialAd();
                       Navigator.of(context).pushNamedAndRemoveUntil(RouteHelper.mainScreen, (route) => false);
                     },
                     circleColor: AppColors.blue,
@@ -435,32 +434,15 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
     );
   }
 
-  Future<void> saveAndShare(Uint8List image) async {
+  Future<void> saveAndShare(Uint8List bytes) async {
     final directory = await getApplicationDocumentsDirectory();
     final path = directory.path;
-    final newFolder = Directory('$path/screen_shots');
-    if (!await newFolder.exists()) {
-      await newFolder.create(recursive: true);
+    final newFolder = "$path/screen_shots";
+    if (!Directory(newFolder).existsSync()) {
+      Directory(newFolder).createSync();
     }
     final imageFile = File('$path/screen_shots/quizResult.png');
-    if(!await imageFile.exists()){
-      await imageFile.create();
-      await Share.shareFiles([imageFile.path]);
-    }
-  }
-
-
-  Future<void> getImagePath() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final imageFile = File('${directory.path}/screen_shots/quizResul.png');
-    if(await imageFile.exists()){
-      imageFile.readAsBytesSync();
-      setState(() {
-        _file = imageFile;
-      });
-      print("reading ${imageFile.path}");
-    }else{
-      print("notExist");
-    }
+    imageFile.writeAsBytesSync(bytes);
+    await Share.shareFiles([imageFile.path]);
   }
 }

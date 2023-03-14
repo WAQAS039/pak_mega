@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pak_mega_mcqs/Widgets/custom_screen_widget.dart';
-import 'package:pak_mega_mcqs/model/mcqs_db_model.dart';
-import 'package:pak_mega_mcqs/model/subcategory_model.dart';
-import 'package:pak_mega_mcqs/providers/mcqsdb_provider.dart';
-import 'package:pak_mega_mcqs/providers/points_provider.dart';
-import 'package:pak_mega_mcqs/routes/routes_helper.dart';
-import 'package:pak_mega_mcqs/screens/categories/sub_categories_page.dart';
-import 'package:pak_mega_mcqs/utils/app_colors.dart';
-import 'package:pak_mega_mcqs/utils/dimensions.dart';
-import 'package:pak_mega_mcqs/widgets/text_widget.dart';
+import 'package:pak_mega_mcqs/common/model/categories_model.dart';
+import 'package:pak_mega_mcqs/common/model/mcqs_db_model.dart';
+import 'package:pak_mega_mcqs/common/providers/mcqsdb_provider.dart';
+import 'package:pak_mega_mcqs/common/providers/points_provider.dart';
+import 'package:pak_mega_mcqs/common/routes/routes_helper.dart';
+import 'package:pak_mega_mcqs/common/utils/app_colors.dart';
+import 'package:pak_mega_mcqs/common/utils/dimensions.dart';
+import 'package:pak_mega_mcqs/common/widgets/categories_container_widget.dart';
+import 'package:pak_mega_mcqs/common/widgets/custom_screen_widget.dart';
+import 'package:pak_mega_mcqs/common/widgets/text_widget.dart';
+import 'package:pak_mega_mcqs/screens/categories/sub_categories/sub_categories_page.dart';
 import 'package:provider/provider.dart';
-import '../../model/categories_model.dart';
-import '../../widgets/categories_container_widget.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({Key? key}) : super(key: key);

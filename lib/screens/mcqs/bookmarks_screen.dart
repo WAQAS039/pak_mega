@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pak_mega_mcqs/model/bookmark_model.dart';
-import 'package:pak_mega_mcqs/model/questions_model.dart';
-import 'package:pak_mega_mcqs/providers/mcqsdb_provider.dart';
-import 'package:pak_mega_mcqs/widgets/bookmarkWidget.dart';
-import 'package:pak_mega_mcqs/widgets/custom_screen_widget.dart';
-import 'package:pak_mega_mcqs/widgets/mcqs_question_widget.dart';
+import 'package:pak_mega_mcqs/common/model/bookmark_model.dart';
+import 'package:pak_mega_mcqs/common/model/questions_model.dart';
+import 'package:pak_mega_mcqs/common/providers/mcqsdb_provider.dart';
+import 'package:pak_mega_mcqs/common/widgets/bookmarkWidget.dart';
+import 'package:pak_mega_mcqs/common/widgets/custom_screen_widget.dart';
 import 'package:provider/provider.dart';
 
 class BookmarkScreen extends StatelessWidget {
